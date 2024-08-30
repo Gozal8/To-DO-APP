@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        } 
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            width: 300px;
+        }
+
+        li {
+            margin: 10px 0;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li form {
+            margin: 0;
+            display: inline;
+        }
+
+        li button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        del {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{title}}</h1>
+
+    <form action="/add-todo" method="POST">
+        <input type="text" name="task" placeholder="New Task" required>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <ul>
+        {{#each todos}}
+        <li>
+            <form action="/toggle-todo" method="POST" style="display:inline;">
+                <input type="hidden" name="index" value="{{@index}}">
+                <button type="submit">{{#if this.done}}✔️{{else}}❌{{/if}}</button>
+            </form>
+            {{#if this.done}}<del>{{this.task}}</del>{{else}}{{this.task}}{{/if}}
+            <form action="/delete-todo" method="POST" style="display:inline;">
+                <input type="hidden" name="index" value="{{@index}}">
+                <button type="submit">🗑️</button>
+            </form>
+        </li>
+        {{/each}}
+    </ul>
+</body>
+</html>
